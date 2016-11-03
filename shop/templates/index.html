@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1> Welcome to my Magic shop! </h1>
+  <div class="products_list">
+    {% for product in range(3) %}
+        <li>
+            {{ product }}: product
+        </li>
+    {% endfor %}
+  </div>
+
+{% endblock %}
