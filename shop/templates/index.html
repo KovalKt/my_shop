@@ -2,10 +2,24 @@
 {% block body %}
   <h1> Welcome to my Magic shop! </h1>
   <div class="products_list">
-    {% for product in range(3) %}
-        <li>
-            {{ product }}: product
-        </li>
+    {% for product in products %}
+        <table>
+            <tr>
+                <td> ID </td>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <td>
+                <img src={{ product.picture_name }} alt="Mountain View" style="width:304px;height:228px;">
+                </td>
+                <td> {{ product.name }} </td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td class="price"> {{ product.price }}</td>
+            </tr>
+        </table>
+        <hr/>
     {% endfor %}
   </div>
 
