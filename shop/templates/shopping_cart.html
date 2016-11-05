@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
-    <script src="static/js/index.js"></script>
-    <h1 class="text-center"> Welcome to my Magic shop! </h1>
+  <h1 class="text-center"> Shopping cart </h1>
+        <p>Here will be your products and options for payment</p>
+
         <table class="table table-hover">
             {% for product in products %}
                 <tr>
@@ -16,21 +17,19 @@
                             <dl class="dl-horizontal">
                                 <dt>Price</dt>
                                 <dd class="text-danger"> {{ product.price }}</dd>
+                                <dt>Amount</dt>
+                                <dd id="{{ product.id }}">{{ product_amount.get(product.id) }}</dd>
                             </dl>
-                            <div id="{{ product.id }}">
-                                <input type="hidden" name="product_id" value="{{ product.id }}">
-                                <input type="hidden" name="qty" value="1">
-
-                                <button type="button" class="btn btn-success" onclick="add_to_cart({{ product.id }});">
-                                    Add to Cart
-                                </button>
-                                <a class="text-right" href="{{url_for('shopping_cart')}}" role="button">Go to Cart</a>
-                            </div>
                         </td>
                     </tr>
                 </tr>
             {% endfor %}
         </table>
 
-        
+        <p>Choose payment system</p>
+
+        <button type="button" class="btn btn-success">
+            Pay
+        </button>
+
 {% endblock %}
