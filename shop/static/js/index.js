@@ -13,9 +13,6 @@ function add_to_cart(product_id) {
 }
 
 function edit_amount(element_id, product_id) {
-    
-    $("dd#"+product_id).find("span").text($("#"+element_id).val());
-
     $.ajax({
         type : "POST",
         url : "shopping_cart",
@@ -24,5 +21,4 @@ function edit_amount(element_id, product_id) {
             qty: $("#"+element_id).val(),
         }
     });
-
 }

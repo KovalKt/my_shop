@@ -26,7 +26,15 @@ def shopping_cart():
         session["cart"][str(id)] = qty #set new amount
 
     products = Product.query.filter(Product.id.in_(session["cart"])).all()
-    product_amount = dict(map(lambda p: (p.id, session["cart"].get(str(p.id))), products))
+
+    product_amount = dict()
+    for product in products:
+
+        if session["cart"].get(str(product.id)) > product.amount_on_stock:
+            session["cart"][str(product.id)] = product.amount_on_stock
+            product_amount[product.id] = product.amount_on_stock
+        else:
+            product_amount[product.id] = session["cart"].get(str(product.id))
 
     return render_template('shopping_cart.html', products=products, product_amount=product_amount)
 

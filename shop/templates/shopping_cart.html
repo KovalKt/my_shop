@@ -19,12 +19,15 @@
                                 <dd class="text-danger"> {{ product.price }}</dd>
                                 <dt>Amount</dt>
                                 <dd id="{{ product.id }}">
-                                    <span> {{ product_amount.get(product.id) }}</span>
                                     <select id="amount_select{{ product.id }}" 
-                                            selected="{{ product_amount.get(product.id) }}"
                                             onchange="edit_amount($(this).attr('id'), {{ product.id }})">
-                                        {% for n in range(product.amount_on_stock) %}
-                                            <option value="{{ n }}">{{ n }}</option>
+                                        {% for n in range(1, product.amount_on_stock+1) %}
+                                            <option value="{{ n }}"
+                                                {% if product_amount.get(product.id)==n %}
+                                                    {{"selected='selected'" }}
+                                                {% endif %}>
+                                                {{ n }}
+                                            </option>
                                         {% endfor %}
                                     </select>
                                     <div class="alert alert-info" role="alert">You can change amount of products</div>
