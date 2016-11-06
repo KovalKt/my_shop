@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h1 class="text-center"> Shopping cart </h1>
+    <h1 class="text-center"> Shopping cart </h1>
+    {% if products %}
         <table class="table table-hover">
             {% for product in products %}
                 <tr>
@@ -33,10 +34,22 @@
             {% endfor %}
         </table>
 
-        <p>Choose payment system</p>
+        <hr/>
 
-        <button type="button" class="btn btn-success">
-            Pay
-        </button>
+        <form action="/pay-now" method="post">
+            {% for system in form.payment_system %}
+                <div class="radio">
+                    <label>{{ system }}{{ system.label }}</label>
+                </div>
+            {% endfor %}
 
+            <button type="submit" class="btn btn-success btn-lg">
+                Buy
+            </button>
+        </form>
+    {% else %}
+        <div class="alert alert-warning">
+            You didn't add any product to Sopping Cart yet
+        </div>
+    {% endif %}
 {% endblock %}

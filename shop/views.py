@@ -1,7 +1,11 @@
-from flask import render_template, session, jsonify, request
+from flask import request, url_for, session, redirect
+from flask import jsonify, render_template, flash
 from . import app
 from .models import Product
-from .helper import cart_session
+from .forms import PaymentSettingsForm
+from .helper import set_cart_session, clear_cart_session, get_order_details
+from .payment_settings import PayPal, Privat24, Liqpay
+
 
 @app.before_request
 def make_session_permanent():
@@ -18,12 +22,14 @@ def index():
 
 @app.route('/shopping_cart', methods=['GET','POST'])
 def shopping_cart():
-    cart_session()
+    set_cart_session()
     
     if request.method == "POST":
         id = int(request.form['id'])
         qty = int(request.form['qty'])
         session["cart"][str(id)] = qty #set new amount
+
+    form = PaymentSettingsForm()
 
     products = Product.query.filter(Product.id.in_(session["cart"])).all()
 
@@ -36,7 +42,11 @@ def shopping_cart():
         else:
             product_amount[product.id] = session["cart"].get(str(product.id))
 
-    return render_template('shopping_cart.html', products=products, product_amount=product_amount)
+    return render_template('shopping_cart.html', 
+        products=products, 
+        product_amount=product_amount,
+        form=form
+    )
 
 
 @app.route('/add_to_cart', methods=['POST'])
@@ -45,7 +55,19 @@ def add_to_cart():
         id = int(request.form['id'])
         qty = int(request.form['qty'])
 
-        cart_session()
+        set_cart_session()
         session["cart"][str(id)] = session["cart"].get(str(id), 0) + qty
 
         return jsonify(status='ok')
+
+@app.route('/pay-now', methods=['POST'])
+def pay_now():
+    form = PaymentSettingsForm()
+    system = eval(request.form['payment_system'])()
+    total_price = get_order_details()
+    
+    flash(system.pay(total_price, "UAH"))
+
+    clear_cart_session()
+
+    return redirect(url_for('index'))   

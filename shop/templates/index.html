@@ -1,31 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
     <h1 class="text-center"> Welcome to my Magic shop! </h1>
-        <table class="table table-hover">
-            {% for product in products %}
-                <tr>
-                    <td class="col-md-6">
-                        <img src={{ product.picture_name }} class="img-thumbnail" alt={{ product.name }} >
-                    </td>
-                    <td class="col-md-6"> 
-                        <p class="h4">{{ product.name }} </p>
-                        <dl class="dl-horizontal">
-                            <dt>Price</dt>
-                            <dd class="text-danger"> {{ product.price }}</dd>
-                        </dl>
-                        <div id="{{ product.id }}">
-                            <input type="hidden" name="product_id" value="{{ product.id }}">
-                            <input type="hidden" name="qty" value="1">
-
-                            <button type="button" class="btn btn-success" onclick="add_to_cart({{ product.id }});">
-                                Add to Cart
-                            </button>
-                            <a class="text-right" href="{{url_for('shopping_cart')}}" role="button">Go to Cart</a>
-                        </div>
-                    </td>
-                </tr>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
             {% endfor %}
-        </table>
+        {% endif %}
+    {% endwith %}
+    <table class="table table-hover">
+        {% for product in products %}
+            <tr>
+                <td class="col-md-6">
+                    <img src={{ product.picture_name }} class="img-thumbnail" alt={{ product.name }} >
+                </td>
+                <td class="col-md-6"> 
+                    <p class="h4">{{ product.name }} </p>
+                    <dl class="dl-horizontal">
+                        <dt>Price</dt>
+                        <dd class="text-danger"> {{ product.price }} UAH</dd>
+                    </dl>
+                    <div id="{{ product.id }}">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="hidden" name="qty" value="1">
 
-        
+                        <button type="button" class="btn btn-success" onclick="add_to_cart({{ product.id }});">
+                            Add to Cart
+                        </button>
+                        <a class="text-right" href="{{url_for('shopping_cart')}}" role="button">Go to Cart</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
