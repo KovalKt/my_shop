@@ -4,8 +4,8 @@
     <link rel=stylesheet media="screen" type="text/css" href="{{url_for   ('static',filename='bootstrap.css')}}">
 </head>
 <body>
-    <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
-    <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
     <script src="static/js/index.js"></script>
     <ul class="nav nav-tabs">
         <li class={{"active" if request.endpoint == 'index' else ""}}>
