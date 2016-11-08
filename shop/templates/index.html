@@ -25,13 +25,22 @@
                     <div id="{{ product.id }}">
                         <input type="hidden" name="product_id" value="{{ product.id }}">
                         <input type="hidden" name="qty" value="1">
-
-                        <button type="button" class="btn btn-success" onclick="add_to_cart({{ product.id }});">
-                            Add to Cart
-                        </button>
+                        {% if product.is_available() %}
+                            <button type="button" class="btn btn-success" onclick="add_to_cart({{ product.id }});">
+                                Add to Cart
+                            </button>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <strong>Sorry</strong>
+                                product ended in stock
+                            </div> 
+                        {% endif %}
                     </div>
                 </td>
             </tr>
         {% endfor %}
     </table>
+    <a href="{{url_for('shopping_cart')}}" class="btn btn-primary btn-md" role="button">
+        Go to Shopping Cart
+    </a>
 {% endblock %}

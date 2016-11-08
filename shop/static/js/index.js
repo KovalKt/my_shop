@@ -22,3 +22,14 @@ function edit_amount(element_id, product_id) {
         }
     });
 }
+
+function remove_item(container_id, product_id) {
+    $("#"+container_id).hide();
+    $.ajax({
+        type : "POST",
+        url : "remove_item",
+        data: {
+            id: product_id
+        }
+    });
+}

@@ -19,5 +19,5 @@ class Product(db.Model):
     def __repr__(self):
         print "Product id:{} name: {}".format(self.id, self.name)
  
-    def get_id(self):
-        return unicode(self.id)
+    def is_available(self):
+        return True if self.amount_on_stock else False

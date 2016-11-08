@@ -22,10 +22,10 @@ def add_records_for_test():
         products = [Product('Milk', 10, "/static/milk.jpg", 10)]
         products.append(Product('Super water', 500, "/static/water.jpg", 3))
         products.append(Product('Beef meat 1kg', 70, "/static/meat.jpg", 7))
-        products.append(Product('Candy', 7, "/static/meat.jpg", 50))
-        products.append(Product('Orange 1kg', 20, "/static/meat.jpg", 24))
-        products.append(Product('Apple 1kg', 14, "/static/meat.jpg", 20))
-        products.append(Product('Power bar', 25, "/static/meat.jpg", 10))
+        products.append(Product('Candy', 7, "/static/candy.jpg", 50))
+        products.append(Product('Orange 1kg', 20, "/static/orange.jpg", 24))
+        products.append(Product('Apple 1kg', 14, "/static/apple.jpg", 20))
+        products.append(Product('Power bar', 25, "/static/power_bar.jpg", 10))
 
         for product in products:
             db.session.add(product)

@@ -1,15 +1,17 @@
 {% extends "layout.html" %}
 {% block body %}
-    <script src="{{ url_for('static', filename='js/tttt.js') }}"></script>
     <h1 class="text-center"> Shopping cart </h1>
     {% if products %}
         <table class="table table-hover">
             {% for product in products %}
-                <tr>
+                <tr id="product_info_{{ product.id }}" class="product_info">
                     <td class="col-md-6">
                         <img src={{ product.picture_name }} class="img-rounded" alt={{ product.name }}  width="160">
                     </td>
                     <td class="col-md-6"> 
+                        <a class="close"
+                            aria-label="remove "
+                            onclick="remove_item($(this).closest('tr').attr('id'), {{ product.id }})">&times;</a>
                         <p class="h4">{{ product.name }} </p>
                         <dl class="dl-horizontal">
                             <dt>Price</dt>
@@ -17,7 +19,7 @@
                             <dt>Amount</dt>
                             <dd id="{{ product.id }}">
                                 <select id="amount_select{{ product.id }}" 
-                                        onchange="edit_amount($(this).attr('id'), {{ product.id }})">
+                                        onchange="edit_amount($(this).attr('id'),{{ product.id }})">
                                     {% for n in range(1, product.amount_on_stock+1) %}
                                         <option value="{{ n }}"
                                             {% if product_amount.get(product.id)==n %}
@@ -27,12 +29,15 @@
                                         </option>
                                     {% endfor %}
                                 </select>
+                                <div class="alert alert-info" role="alert">You can change amount of products</div>
                             </dd>
                         </dl>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+
+        <hr/>
 
         <form action="/pay-now" method="post">
             {% for system in form.payment_system %}
